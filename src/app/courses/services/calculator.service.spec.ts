@@ -8,14 +8,12 @@ import { TestBed } from '@angular/core/testing';
 describe('CalculatorService', () => {
 
   let
-    calculator: CalculatorService,
+    calculatorService: CalculatorService,
     loggerSpy: any;
 
   // TODO будет выполняться перед каждой из спецификаций (it)
   beforeEach(() => {
     loggerSpy = jasmine.createSpyObj('LoggerService', ['log']);
-
-    // console.log('тест запущен!');
 
     TestBed.configureTestingModule({
       providers: [
@@ -23,34 +21,27 @@ describe('CalculatorService', () => {
         {
           provide: LoggerService,
           useValue: loggerSpy,
-        }
+        },
       ]
     });
 
-    calculator = TestBed.get(CalculatorService);
+    calculatorService = TestBed.get(CalculatorService);
   });
-
 
   // спецификация
   it('должен сложить два числа', () => {
 
-    console.log('тест на сложение');
+    const result = calculatorService.add(2, 2);
 
-    const result = calculator.add(2, 2);
-
-    expect(result).toBe(4);
+    expect(result).toBe(4, 'Должно быть: 4');
 
     // TODO указываем сколько раз должен быть вызван
     expect(loggerSpy.log).toHaveBeenCalledTimes(1);
   });
 
-
   // спецификация
   it('должен вычесть два числа', () => {
-
-    console.log('тест на вычитание');
-
-    const result = calculator.subtract(2, 2);
+    const result = calculatorService.subtract(2, 2);
 
     expect(result).toBe(0,
       'неожиданный результат вычитания'
