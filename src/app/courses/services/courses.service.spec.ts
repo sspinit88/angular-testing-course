@@ -8,14 +8,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 describe('CoursesService', () => {
 
-  let coursesService: CoursesService;
   // TODO позволяет имитировать и сбрасывать запросы.
   let httpTestingController: HttpTestingController;
+  let coursesService: CoursesService;
 
   const changes: Partial<Course> = { titles: { description: 'Testing Course' } };
 
   beforeEach(() => {
-
     TestBed.configureTestingModule({
       imports: [
         // TODO вместо HttpClient для тестов подключаем
@@ -28,12 +27,9 @@ describe('CoursesService', () => {
 
     coursesService = TestBed.get(CoursesService);
     httpTestingController = TestBed.get(HttpTestingController);
-
   });
 
-
   it('должны найти все курсы', () => {
-
     coursesService
       .findAllCourses()
       .subscribe(courses => {
@@ -61,20 +57,14 @@ describe('CoursesService', () => {
 
     // TODO передаем некоторые фиксированные данные в наш запрос, которые как бы должен возвращать сервер
     req.flush({ payload: Object.values(COURSES) });
-
   });
 
-
   it('должен найти курс по id', () => {
-
     coursesService
       .findCourseById(12)
       .subscribe(course => {
-
         expect(course).toBeTruthy();
-
         expect(course.id).toBe(12, 'id не совпадает');
-
       });
 
     const req = httpTestingController.expectOne('/api/courses/12');
@@ -82,12 +72,9 @@ describe('CoursesService', () => {
     expect(req.request.method).toEqual('GET');
 
     req.flush(COURSES[12]);
-
   });
 
-
   it('должен сохранять курс на сервере', () => {
-
     coursesService
       .saveCourse(12, changes)
       .subscribe(course => {
@@ -109,12 +96,9 @@ describe('CoursesService', () => {
         ...COURSES[12],
         ...changes,
       });
-
   });
 
-
   it('должен выдать ошибку, если не удалось сохранить курс', () => {
-
     coursesService
       .saveCourse(12, changes)
       .subscribe(
@@ -134,9 +118,7 @@ describe('CoursesService', () => {
 
   });
 
-
   it('должен найти урок по заданным параметрам', () => {
-
     coursesService
       .findLessons(12)
       .subscribe(lessons => {
@@ -144,7 +126,6 @@ describe('CoursesService', () => {
         expect(lessons).toBeTruthy();
 
         expect(lessons.length).toBe(3);
-
       });
 
     const req = httpTestingController
@@ -162,15 +143,11 @@ describe('CoursesService', () => {
 
     req.flush({
       payload: findLessonsForCourse(12).slice(0, 3),
-  })
-    ;
-
+    });
   });
-
 
   afterEach(() => {
     // TODO убеждаемся, что других запросов на сервер не было
     httpTestingController.verify();
   });
-
 });
