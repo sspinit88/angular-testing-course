@@ -78,9 +78,7 @@ describe('CoursesService', () => {
     coursesService
       .saveCourse(12, changes)
       .subscribe(course => {
-
         expect(course.id).toBe(12, 'id не совпадает');
-
       });
 
     const req = httpTestingController.expectOne('/api/courses/12');
@@ -104,9 +102,7 @@ describe('CoursesService', () => {
       .subscribe(
         () => fail('операция по сохранению курса провалилась'),
         (error: HttpErrorResponse) => {
-
           expect(error.status).toBe(500);
-
         }
       );
 
@@ -122,9 +118,7 @@ describe('CoursesService', () => {
     coursesService
       .findLessons(12)
       .subscribe(lessons => {
-
         expect(lessons).toBeTruthy();
-
         expect(lessons.length).toBe(3);
       });
 
